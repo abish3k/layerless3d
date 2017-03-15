@@ -9,7 +9,7 @@ if __name__ == '__main__':
                         metavar='FILE',
                         help='File to be sliced',
                         nargs='?',
-                        default='stl/bottle.stl',
+                        default='../stl/bottle.stl',
                         type=argparse.FileType('rb'))
     parser.add_argument('-r', '--resolution', type=float,
                         default=1,

@@ -77,37 +77,6 @@ def slice_file(f=None, resolution=0.1):
         slices.append(layer)
 
     import pickle
-    output = open('outputs/stl/slices.pkl', 'wb')
+    output = open('../outputs/stl/slices.pkl', 'wb')
     pickle.dump(slices, output)
     output.close()
-
-
-    # ##########################
-    # pygame.init()
-    # size = [900, 600]
-    # screen = pygame.display.set_mode(size)
-    #
-    # # Loop until the user clicks the close button.
-    # done = False
-    # clock = pygame.time.Clock()
-    #
-    # while not done:
-    #
-    #     # This limits the while loop to a max of 10 times per second.
-    #     # Leave this out and we will use all CPU we can.
-    #     clock.tick(40)
-    #
-    #     for event in pygame.event.get():  # User did something
-    #         if event.type == pygame.QUIT:  # If user clicked close
-    #             done = True  # Flag that we are done so we exit this loop
-    #
-    #     for layer in slices:
-    #         screen.fill(BLACK)
-    #         for pair in layer:
-    #             pygame.draw.line(screen, WHITE, pair[0], pair[1], 5)
-    #         pygame.display.flip()
-    #         pygame.time.wait(60)
-    #
-    # print("Status: Finished Outputting Slices")
-    # pygame.quit()
-
