@@ -77,7 +77,7 @@ def slice_file(f=None, resolution=0.1):
         slices.append(layer)
 
     import pickle
-    output = open('slices.pkl', 'wb')
+    output = open('outputs/stl/slices.pkl', 'wb')
     pickle.dump(slices, output)
     output.close()
 
