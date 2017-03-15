@@ -41,7 +41,7 @@ class Display:
 
 if __name__ == '__main__':
     import pickle
-    slices_file = open('outputs/pkl/slices.pkl', 'rb')
+    slices_file = open('../outputs/pkl/slices.pkl', 'rb')
     slices = pickle.load(slices_file)
     slices_file.close()
 

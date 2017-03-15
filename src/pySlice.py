@@ -20,15 +20,14 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 """
-from Model3D import STLModel, Vector3, Normal
-from svgwrite import Drawing, rgb
-import pygame
-import sys
+import os
 
+import errno
+
+from Model3D import STLModel, Vector3, Normal
 
 WHITE = (255, 255, 255)
 BLACK = (  0,   0,   0)
-
 
 # @profile
 def slice_file(f=None, resolution=0.1):
@@ -77,6 +76,14 @@ def slice_file(f=None, resolution=0.1):
         slices.append(layer)
 
     import pickle
-    output = open('../outputs/stl/slices.pkl', 'wb')
-    pickle.dump(slices, output)
-    output.close()
+    filename = '../outputs/pkl/slices.pkl'
+
+    if not os.path.exists(os.path.dirname(filename)):
+        try:
+            os.makedirs(os.path.dirname(filename))
+        except OSError as exc:  # Guard against race condition
+            if exc.errno != errno.EEXIST:
+                raise
+
+    with open(filename, 'wb') as output:
+        pickle.dump(slices, output)
