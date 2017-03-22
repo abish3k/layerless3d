@@ -33,7 +33,7 @@ class Display:
                 for pair in layer:
                     pygame.draw.line(screen, WHITE, pair[0], pair[1], 5)
                 pygame.display.flip()
-                clock.tick(30)
+                clock.tick(0.75)
 
         print("Status: Finished Outputting Slices")
         pygame.quit()
