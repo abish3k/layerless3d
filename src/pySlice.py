@@ -26,6 +26,8 @@ import errno
 
 from Model3D import STLModel, Vector3, Normal
 
+from operator import itemgetter
+
 WHITE = (255, 255, 255)
 BLACK = (  0,   0,   0)
 
@@ -70,10 +72,37 @@ def slice_file(f=None, resolution=0.1):
     interval = scale * resolution
     stats = model.stats()
 
+    max_x = 0
+    max_y = 0
+    min_x = 0
+    min_y = 0
+
     slices = []
     for targetz in range(0, int(stats['extents']['z']['upper']), int(interval)):
         layer = model.slice_at_z(targetz)
+        for line in layer:
+            tmp_max_x = max(line, key=itemgetter(0))[0]
+            tmp_max_y = max(line, key=itemgetter(1))[1]
+            tmp_min_x = min(line, key=itemgetter(0))[0]
+            tmp_min_y = min(line, key=itemgetter(1))[1]
+            max_x = tmp_max_x if tmp_max_x > max_x else max_x
+            max_y = tmp_max_y if tmp_max_y > max_y else max_y
+            min_x = tmp_min_x if tmp_min_x < min_x else min_x
+            min_y = tmp_min_y if tmp_min_y < min_y else min_y
+
         slices.append(layer)
+
+    fig = {
+        'min': {
+            'x': min_x,
+            'y': min_y
+        },
+        'max': {
+            'x': max_x,
+            'y': max_y
+        },
+        'slices': slices
+    }
 
     import pickle
     filename = '../outputs/pkl/slices.pkl'
@@ -86,4 +115,4 @@ def slice_file(f=None, resolution=0.1):
                 raise
 
     with open(filename, 'wb') as output:
-        pickle.dump(slices, output)
+        pickle.dump(fig, output)
