@@ -33,20 +33,66 @@ class Display:
 
         cur_screen_size = screen.get_size()
 
-        for surface in surfaces:
-            pygame.event.pump()
-            event = pygame.event.wait()
-            if event.type == QUIT:
-                pygame.display.quit()
-            elif event.type == VIDEORESIZE:
-                cur_screen_size = event.dict['size']
-                screen = pygame.display.set_mode(cur_screen_size, HWSURFACE | DOUBLEBUF | RESIZABLE)
+        while not done:
+            for surface in surfaces:
 
-            screen.blit(pygame.transform.scale(surface, cur_screen_size), (0, 0))
-            pygame.display.flip()
-            clock.tick(30)
+                for event in pygame.event.get():  # User did something
+                    if event.type == pygame.QUIT:  # If user clicked close
+                        done = True  # Flag that we are done so we exit this loop
+                        break
+                    elif event.type == VIDEORESIZE:
+                        cur_screen_size = event.dict['size']
+                        screen = pygame.display.set_mode(cur_screen_size, HWSURFACE | DOUBLEBUF | RESIZABLE)
+
+                    if done:
+                        break
+                if done:
+                    break
+
+                mod_surface = self.aspect_scale(surface, cur_screen_size)
+                offset = self.center_surface(mod_surface, screen)
+                screen.blit(mod_surface, offset)
+                pygame.display.flip()
+                clock.tick(30)
 
         pygame.quit()
+
+    def aspect_scale(self, img, (bx, by)):
+        """ Scales 'img' to fit into box bx/by.
+         This method will retain the original image's aspect ratio """
+        ix, iy = img.get_size()
+        if ix > iy:
+            # fit to width
+            scale_factor = bx / float(ix)
+            sy = scale_factor * iy
+            if sy > by:
+                scale_factor = by / float(iy)
+                sx = scale_factor * ix
+                sy = by
+            else:
+                sx = bx
+        else:
+            # fit to height
+            scale_factor = by / float(iy)
+            sx = scale_factor * ix
+            if sx > bx:
+                scale_factor = bx / float(ix)
+                sx = bx
+                sy = scale_factor * iy
+            else:
+                sy = by
+
+        return pygame.transform.scale(img, (int(sx), int(sy)))
+
+    def center_surface(self, surface, screen):
+        screen_size = screen.get_size()
+        surface_size = surface.get_size()
+
+        pos_x = (screen_size[0] - surface_size[0]) / 2
+        pos_y = (screen_size[1] - surface_size[1]) / 2
+
+        return pos_x, pos_y
+
 
 if __name__ == '__main__':
     import pickle
