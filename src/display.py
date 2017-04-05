@@ -1,5 +1,5 @@
 import pygame
-from pygame import HWSURFACE, DOUBLEBUF, RESIZABLE, VIDEORESIZE, QUIT
+from pygame import HWSURFACE, DOUBLEBUF, RESIZABLE, VIDEORESIZE, QUIT, KEYDOWN, K_f, FULLSCREEN, NOFRAME
 
 WHITE = (255, 255, 255)
 BLACK = (  0,   0,   0)
@@ -17,7 +17,7 @@ class Display:
         pygame.init()
         info_object = pygame.display.Info()
         screen_size = (info_object.current_w, info_object.current_h)
-        screen = pygame.display.set_mode(screen_size, pygame.RESIZABLE)
+        screen = pygame.display.set_mode(screen_size, RESIZABLE)
 
         surfaces = []
         for layer in slices:
@@ -37,12 +37,17 @@ class Display:
             for surface in surfaces:
 
                 for event in pygame.event.get():  # User did something
-                    if event.type == pygame.QUIT:  # If user clicked close
+                    if event.type == QUIT:  # If user clicked close
                         done = True  # Flag that we are done so we exit this loop
                         break
                     elif event.type == VIDEORESIZE:
                         cur_screen_size = event.dict['size']
                         screen = pygame.display.set_mode(cur_screen_size, HWSURFACE | DOUBLEBUF | RESIZABLE)
+                    elif event.type == KEYDOWN and event.key == K_f:
+                        if screen.get_flags() == NOFRAME:
+                            screen = pygame.display.set_mode(cur_screen_size, HWSURFACE | DOUBLEBUF | RESIZABLE)
+                        else:
+                            screen = pygame.display.set_mode(cur_screen_size, HWSURFACE | DOUBLEBUF | NOFRAME)
 
                     if done:
                         break
