@@ -24,12 +24,13 @@ class Display:
             surface = pygame.Surface((figure['max']['x'], figure['max']['y']))
             surface.fill(BLACK)
             for pair in layer:
-                pygame.draw.line(surface, WHITE, pair[0], pair[1], 5)
+                pygame.draw.line(surface, WHITE, pair[0], pair[1], 3)
             surfaces.append(surface)
 
         # Loop until the user clicks the close button.
         done = False
         clock = pygame.time.Clock()
+
 
         cur_screen_size = screen.get_size()
 
@@ -54,13 +55,27 @@ class Display:
                 if done:
                     break
 
+#<<<<<<< Updated upstream
                 mod_surface = self.aspect_scale(surface, cur_screen_size)
                 offset = self.center_surface(mod_surface, screen)
                 screen.blit(mod_surface, offset)
                 pygame.display.flip()
-                clock.tick(30)
+                clock.tick(0.3)
+#=======
+        for layer in slices:
+            surface = pygame.Surface((figure['max']['x'], figure['max']['y']))
+            surface.fill(BLACK)
+            for pair in layer:
+                pygame.draw.line(surface, WHITE, pair[0], pair[1], 2)
+            scaled = pygame.transform.scale(surface, (int(figure['max']['x'] * 2), int(figure['max']['y'] * 2)))
+            screen.blit(scaled, (int(screen_size[0]/6), int(screen_size[1]/8)))
+            pygame.display.flip()
+            clock.tick(0.5)
 
         pygame.quit()
+
+    #>>>>>>> Stashed changes
+
 
     def aspect_scale(self, img, (bx, by)):
         """ Scales 'img' to fit into box bx/by.
@@ -105,7 +120,7 @@ if __name__ == '__main__':
     model = pickle.load(slices_file)
     slices_file.close()
 
-    # print model
+    #print model
 
     display = Display()
     display.play(model)

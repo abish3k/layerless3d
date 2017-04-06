@@ -9,10 +9,10 @@ if __name__ == '__main__':
                         metavar='FILE',
                         help='File to be sliced',
                         nargs='?',
-                        default='../stl/bunny.stl',
+                        default='../stl/classic_queen.stl',
                         type=argparse.FileType('rb'))
     parser.add_argument('-r', '--resolution', type=float,
-                        default=1,
+                        default=0.1,
                         help='The Z-Axis resolution of the printer, in mms')
 
     args = parser.parse_args()
