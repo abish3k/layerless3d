@@ -62,17 +62,17 @@ class Display:
                 pygame.display.flip()
                 clock.tick(0.3)
 #=======
-        for layer in slices:
-            surface = pygame.Surface((figure['max']['x'], figure['max']['y']))
-            surface.fill(BLACK)
-            for pair in layer:
-                pygame.draw.line(surface, WHITE, pair[0], pair[1], 2)
-            scaled = pygame.transform.scale(surface, (int(figure['max']['x'] * 2), int(figure['max']['y'] * 2)))
-            screen.blit(scaled, (int(screen_size[0]/6), int(screen_size[1]/8)))
-            pygame.display.flip()
-            clock.tick(0.5)
+       #for layer in slices:
+          # surface = pygame.Surface((figure['max']['x'], figure['max']['y']))
+           #surface.fill(BLACK)
+           #for pair in layer:
+               #pygame.draw.line(surface, WHITE, pair[0], pair[1], 2)
+          # scaled = pygame.transform.scale(surface, (int(figure['max']['x'] * 2), int(figure['max']['y'] * 2)))
+           #screen.blit(scaled, (int(screen_size[0]/6), int(screen_size[1]/8)))
+           #pygame.display.flip()
+           #clock.tick(60)
 
-        pygame.quit()
+       #pygame.quit()
 
     #>>>>>>> Stashed changes
 
