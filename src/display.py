@@ -24,7 +24,7 @@ class Display:
             surface = pygame.Surface((figure['max']['x'], figure['max']['y']))
             surface.fill(BLACK)
             for pair in layer:
-                pygame.draw.line(surface, WHITE, pair[0], pair[1], 3)
+                pygame.draw.line(surface, WHITE, pair[0], pair[1], 2)
             surfaces.append(surface)
 
         # Loop until the user clicks the close button.
@@ -60,7 +60,7 @@ class Display:
                 offset = self.center_surface(mod_surface, screen)
                 screen.blit(mod_surface, offset)
                 pygame.display.flip()
-                clock.tick(0.3)
+                clock.tick(5)
 #=======
        #for layer in slices:
           # surface = pygame.Surface((figure['max']['x'], figure['max']['y']))
